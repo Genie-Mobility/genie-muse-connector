@@ -2,11 +2,11 @@
 
 Integration documentation and an independent MCP acceptance client for the Genie
 delivery sandbox. The service lives in the separate `genie-delivery` repository.
-The hosted sandbox endpoint is
-`https://delivery-api-production-8749.up.railway.app/mcp`. Its HTTPS MCP workflow was
-independently tested on 2026-10-20. The custom endpoint
-`https://delivery.geniemobility.ai/mcp` remains pending DNS setup. Neither endpoint
-is claimed to be installed in or approved by Muse.
+The hosted sandbox endpoint is `https://delivery.geniemobility.ai/mcp`.
+Its TLS, MCP discovery, persisted delivery reads and Origin checks were independently
+verified on 2026-10-20, following the complete workflow test on its Railway hostname.
+See [validation evidence](docs/validation.md), including the local DNS-cache caveat.
+The connector is not claimed to be installed in or approved by Muse.
 
 **Sandbox only:** fictional deliveries, simulated payment authorization, no charges,
 no food ordering, no vehicle or human dispatch. A confirmed sandbox delivery is not
@@ -59,7 +59,7 @@ then run (the example targets the hosted simulation):
 ```sh
 read -rsp 'Sandbox token: ' GENIE_SANDBOX_TOKEN; echo
 export GENIE_SANDBOX_TOKEN
-python3 scripts/mcp_demo.py --endpoint https://delivery-api-production-8749.up.railway.app/mcp
+python3 scripts/mcp_demo.py --endpoint https://delivery.geniemobility.ai/mcp
 unset GENIE_SANDBOX_TOKEN
 ```
 

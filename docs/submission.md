@@ -5,10 +5,11 @@ Status: draft; no submission or terms acceptance performed. Follow the current
 Do not infer field names or automation APIs from this checklist.
 
 Hosted sandbox now available at
-`https://delivery-api-production-8749.up.railway.app/mcp`, tested with a generic MCP
+`https://delivery.geniemobility.ai/mcp`, tested with a generic MCP
 client. Separate `owner-test` and `muse-reviewer` tenants are provisioned with
 distinct credentials stored outside this repository. No credentials have been
-submitted to Muse. Custom-domain DNS and actual Muse connectivity remain pending.
+submitted to Muse. Custom-domain DNS/TLS are verified; actual Muse connectivity
+remains pending.
 
 ## Prepared product description
 
@@ -61,3 +62,12 @@ The verified entry for authenticated intake is
 `https://platform.muse.ai/login?return_to=/submission`. No authenticated direct-test
 installation path has been observed. Directory approval and direct test
 connectivity are distinct milestones; the latter's access path remains unknown.
+
+The next user action is to sign in to that official portal with an authorized work
+account and inspect its connector submission/test-connection options. Use
+`https://delivery.geniemobility.ai/mcp` as the service endpoint if the portal supports
+that MCP setup. Confirm accepted transport and bearer-key wiring before claiming
+compatibility. Enter the dedicated reviewer credential only in the portal's
+documented secure credential field or other confirmed secure intake, never in
+chat, a GitHub issue, or a repository file. A GitHub URL alone is not a verified
+installation method. No terms acceptance or submission has been performed here.

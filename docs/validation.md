@@ -59,10 +59,29 @@ After the backend owner restarted both hosted API and worker, a fresh independen
 MCP session read these same IDs with their correct `completed`/`cancelled` states
 and simulation labels. No new deliveries were created for the restart check.
 
+## Canonical-domain targeted validation
+
+Endpoint: `https://delivery.geniemobility.ai/mcp`. Backend commit:
+`88c9bf4ef760b64d7bdb4f9ba4be0e2b47e9cfed`; runtime and contracts unchanged, with
+canonical hosting configuration and deployment documentation updated.
+
+Independent checks passed normal TLS hostname/certificate verification, MCP
+initialization, exact equality of the live and published six-tool schemas, and
+reads of both previously completed/cancelled hosted deliveries. A request with
+`Origin: https://delivery.geniemobility.ai` returned 200; an untrusted Origin
+returned 403. No new delivery or repeated full workflow was necessary.
+
+Google public DNS independently resolved the canonical hostname to `69.46.46.57`.
+This machine still cached an earlier NXDOMAIN response, so the test used a
+process-local resolver override restricted to this hostname and public DNS result.
+It retained the canonical URL, SNI and certificate validation. System DNS was not
+changed and TLS verification was never disabled. This establishes endpoint TLS and
+MCP behavior; resolver caches elsewhere can take time to refresh.
+
 ## Not established by these runs
 
 Actual Muse installation, authentication compatibility, approval prompts, booking
-within Muse, connector submission/approval/discoverability, custom-domain DNS/TLS,
+within Muse, connector submission/approval/discoverability,
 real service coverage, payments and dispatch are not validated. Concurrency,
 expiry, readiness and durable-event checks require separate backend evidence.
 The generic client result must not be presented as a Muse demo.

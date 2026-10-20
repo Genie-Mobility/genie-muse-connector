@@ -3,7 +3,9 @@
 Copied without modification from the private Genie delivery backend repository,
 commit `ec80173bbf18568584b5c049b00ed19c56523f8f`, on 2026-10-20.
 These public interface files contain no backend implementation or credentials.
-The production hostname in OpenAPI is the intended target, not deployment evidence.
+The canonical hostname in OpenAPI now has separate hosted verification evidence in
+[the validation report](../docs/validation.md); schema files alone do not establish
+availability or Muse compatibility.
 
 | File | SHA-256 |
 | --- | --- |
