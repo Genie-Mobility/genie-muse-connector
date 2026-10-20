@@ -1,0 +1,308 @@
+{
+  "tools": [
+    {
+      "name": "get_delivery_quote",
+      "description": "Quote configured service area, route estimate and test price; quote is not a booking.",
+      "inputSchema": {
+        "properties": {
+          "pickup_address": {
+            "title": "Pickup Address",
+            "type": "string"
+          },
+          "dropoff_address": {
+            "title": "Dropoff Address",
+            "type": "string"
+          },
+          "package_description": {
+            "title": "Package Description",
+            "type": "string"
+          },
+          "requested_ready_time": {
+            "format": "date-time",
+            "title": "Requested Ready Time",
+            "type": "string"
+          },
+          "handoff_type": {
+            "title": "Handoff Type",
+            "type": "string"
+          },
+          "idempotency_key": {
+            "maxLength": 128,
+            "minLength": 1,
+            "pattern": "^[A-Za-z0-9._:-]{1,128}$",
+            "title": "Idempotency Key",
+            "type": "string"
+          },
+          "instructions": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Instructions"
+          },
+          "handoff_instructions": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Handoff Instructions"
+          }
+        },
+        "required": [
+          "pickup_address",
+          "dropoff_address",
+          "package_description",
+          "requested_ready_time",
+          "handoff_type",
+          "idempotency_key"
+        ],
+        "title": "get_delivery_quoteArguments",
+        "type": "object"
+      },
+      "annotations": {
+        "readOnlyHint": false,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true
+      }
+    },
+    {
+      "name": "reserve_delivery",
+      "description": "Temporarily reserve the single pilot vehicle. This does not authorize payment or dispatch.",
+      "inputSchema": {
+        "properties": {
+          "quote_id": {
+            "format": "uuid",
+            "title": "Quote Id",
+            "type": "string"
+          },
+          "idempotency_key": {
+            "maxLength": 128,
+            "minLength": 1,
+            "pattern": "^[A-Za-z0-9._:-]{1,128}$",
+            "title": "Idempotency Key",
+            "type": "string"
+          }
+        },
+        "required": [
+          "quote_id",
+          "idempotency_key"
+        ],
+        "title": "reserve_deliveryArguments",
+        "type": "object"
+      },
+      "annotations": {
+        "readOnlyHint": false,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true
+      }
+    },
+    {
+      "name": "confirm_delivery",
+      "description": "Confirm only with explicit user approval; return next_action hosted TEST Checkout when ready.",
+      "inputSchema": {
+        "properties": {
+          "reservation_id": {
+            "format": "uuid",
+            "title": "Reservation Id",
+            "type": "string"
+          },
+          "user_confirmed": {
+            "const": true,
+            "title": "User Confirmed",
+            "type": "boolean"
+          },
+          "customer_contact": {
+            "maxLength": 500,
+            "minLength": 3,
+            "title": "Customer Contact",
+            "type": "string"
+          },
+          "idempotency_key": {
+            "maxLength": 128,
+            "minLength": 1,
+            "pattern": "^[A-Za-z0-9._:-]{1,128}$",
+            "title": "Idempotency Key",
+            "type": "string"
+          }
+        },
+        "required": [
+          "reservation_id",
+          "user_confirmed",
+          "customer_contact",
+          "idempotency_key"
+        ],
+        "title": "confirm_deliveryArguments",
+        "type": "object"
+      },
+      "annotations": {
+        "readOnlyHint": false,
+        "destructiveHint": true,
+        "idempotentHint": true,
+        "openWorldHint": true
+      }
+    },
+    {
+      "name": "submit_pickup_details",
+      "description": "Submit existing restaurant-confirmed order details. The service does not order food.",
+      "inputSchema": {
+        "properties": {
+          "delivery_id": {
+            "format": "uuid",
+            "title": "Delivery Id",
+            "type": "string"
+          },
+          "restaurant_confirmation": {
+            "const": true,
+            "title": "Restaurant Confirmation",
+            "type": "boolean"
+          },
+          "restaurant_order_reference": {
+            "title": "Restaurant Order Reference",
+            "type": "string"
+          },
+          "pickup_name": {
+            "title": "Pickup Name",
+            "type": "string"
+          },
+          "ready_at": {
+            "format": "date-time",
+            "title": "Ready At",
+            "type": "string"
+          },
+          "idempotency_key": {
+            "maxLength": 128,
+            "minLength": 1,
+            "pattern": "^[A-Za-z0-9._:-]{1,128}$",
+            "title": "Idempotency Key",
+            "type": "string"
+          },
+          "pickup_code": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Pickup Code"
+          },
+          "instructions": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Instructions"
+          },
+          "pickup_contact": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Pickup Contact"
+          }
+        },
+        "required": [
+          "delivery_id",
+          "restaurant_confirmation",
+          "restaurant_order_reference",
+          "pickup_name",
+          "ready_at",
+          "idempotency_key"
+        ],
+        "title": "submit_pickup_detailsArguments",
+        "type": "object"
+      },
+      "annotations": {
+        "readOnlyHint": false,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true
+      }
+    },
+    {
+      "name": "get_delivery_status",
+      "description": "Read your booking, payment state, next_action, and operator-reported timeline.",
+      "inputSchema": {
+        "properties": {
+          "delivery_id": {
+            "format": "uuid",
+            "title": "Delivery Id",
+            "type": "string"
+          }
+        },
+        "required": [
+          "delivery_id"
+        ],
+        "title": "get_delivery_statusArguments",
+        "type": "object"
+      },
+      "annotations": {
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": false
+      }
+    },
+    {
+      "name": "cancel_delivery",
+      "description": "Cancel before collection if permitted; payment void remains pending until provider confirmation.",
+      "inputSchema": {
+        "properties": {
+          "delivery_id": {
+            "format": "uuid",
+            "title": "Delivery Id",
+            "type": "string"
+          },
+          "reason": {
+            "title": "Reason",
+            "type": "string"
+          },
+          "idempotency_key": {
+            "maxLength": 128,
+            "minLength": 1,
+            "pattern": "^[A-Za-z0-9._:-]{1,128}$",
+            "title": "Idempotency Key",
+            "type": "string"
+          }
+        },
+        "required": [
+          "delivery_id",
+          "reason",
+          "idempotency_key"
+        ],
+        "title": "cancel_deliveryArguments",
+        "type": "object"
+      },
+      "annotations": {
+        "readOnlyHint": false,
+        "destructiveHint": true,
+        "idempotentHint": true,
+        "openWorldHint": true
+      }
+    }
+  ]
+}

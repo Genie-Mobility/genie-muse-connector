@@ -81,6 +81,14 @@ not been published here or submitted through the Connector Platform. The user
 reports secure credential configuration in the local Muse client; we did not
 independently inspect its storage or permission prompts.
 
+## Isolated human-pilot development
+
+This branch also contains [pilot onboarding and review instructions](docs/pilot-onboarding.md)
+and [independent test evidence](docs/pilot-validation.md). Its OAuth and human
+delivery probes target a separate local HTTPS test app with an injected fake
+payment provider. This pilot is not deployed, and actual Muse OAuth/Stripe test
+payment handoff is not yet verified. The existing sandbox contract above is unchanged.
+
 ## Sources
 
 - [Muse connector guidelines](https://platform.muse.ai/docs)
