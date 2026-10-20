@@ -1,0 +1,12 @@
+{
+  "base_url": "https://localhost:8843",
+  "issuer": "https://localhost:8843",
+  "resource": "https://localhost:8843/pilot/mcp",
+  "client_id": "pilot-probe",
+  "redirect_uri": "https://localhost:8844/callback",
+  "resource_metadata_path": "/.well-known/oauth-protected-resource/pilot/mcp",
+  "authorization_metadata_path": "/.well-known/oauth-authorization-server",
+  "execution_mode": "human_test",
+  "test_mode": true,
+  "canonical_delivery_argument": "delivery_id"
+}
