@@ -8,8 +8,9 @@ Hosted sandbox now available at
 `https://delivery.geniemobility.ai/mcp`, tested with a generic MCP
 client. Separate `owner-test` and `muse-reviewer` tenants are provisioned with
 distinct credentials stored outside this repository. No credentials have been
-submitted to Muse. Custom-domain DNS/TLS are verified; actual Muse connectivity
-remains pending.
+submitted through the Connector Platform. The user reports a working local Muse
+custom client with secure credential storage; custom-domain DNS/TLS are verified.
+That local integration is separate from this platform-submission checklist.
 
 ## Prepared product description
 
@@ -59,11 +60,12 @@ These are project acceptance checks, not claims about mandatory portal fields:
   endpoint as live. Review production readiness separately from sandbox review.
 
 The verified entry for authenticated intake is
-`https://platform.muse.ai/login?return_to=/submission`. No authenticated direct-test
-installation path has been observed. Directory approval and direct test
-connectivity are distinct milestones; the latter's access path remains unknown.
+`https://platform.muse.ai/login?return_to=/submission`. No authenticated portal
+test-installation path has been observed. A user-reported local custom client built
+from this repository completed simulated workflows; directory approval remains a
+separate milestone.
 
-The next user action is to sign in to that official portal with an authorized work
+For Connector Platform submission, sign in to that official portal with an authorized work
 account and inspect its connector submission/test-connection options. Use
 `https://delivery.geniemobility.ai/mcp` as the service endpoint if the portal supports
 that MCP setup. Confirm accepted transport and bearer-key wiring before claiming

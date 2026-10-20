@@ -12,7 +12,8 @@ Published snapshots: [OpenAPI](../contracts/openapi.json),
 Hosted base URL: `https://delivery.geniemobility.ai`. Local test base:
 `http://127.0.0.1:8800`. MCP path: `/mcp`. Use a dedicated bearer API key that the
 server maps to a tenant; callers cannot select tenant IDs. Remote connections need
-HTTPS. Streamable HTTP compatibility with Muse remains unverified.
+HTTPS. A user-reported local Muse custom client used this interface successfully;
+general platform compatibility and directory approval remain unverified.
 
 The initial full hosted workflow was tested at the Railway hostname
 `https://delivery-api-production-8749.up.railway.app`. The canonical domain above

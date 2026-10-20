@@ -27,7 +27,14 @@ an authenticated Muse client after its integration path is confirmed.
 Persistence, concurrency, expiry and isolation also need backend integration tests.
 Successful protocol calls alone cannot establish those properties.
 
-## Actual Muse tier — pending access
+## Muse tier — user-reported local workflow
+
+The user reports that local Muse read this repository, built a
+`custom.genie-mobility` client with the six tools allowlisted, securely configured
+its key, and completed the simulated booking and cancellation scenarios. See
+[validation evidence](validation.md) for the report and corroboration boundaries.
+This is not a universal installation recipe. Permission-denial and changed-approval
+scenarios below remain acceptance criteria, not claimed observations.
 
 Connect using the authenticated platform's confirmed method. Ask Muse to arrange a
 **simulated** delivery of an already ordered fictional restaurant package, with no
@@ -39,6 +46,7 @@ Change approved details and verify a fresh permission request. Exercise ambiguou
 responses without duplicates.
 
 Record endpoint version, test time, environment, tool trace and observed permissions
-with secrets and personal information removed. Report each tier separately. Until
-this tier is observed, do not describe the connector as installed in Muse, approved,
-discoverable, or validated end to end in Muse.
+with secrets and personal information removed. Report user observations, backend
+corroboration and independently observed client behavior separately. Do not infer
+directory approval, general installation support or permission enforcement from
+successful backend records alone.

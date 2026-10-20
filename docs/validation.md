@@ -78,10 +78,35 @@ It retained the canonical URL, SNI and certificate validation. System DNS was no
 changed and TLS verification was never disabled. This establishes endpoint TLS and
 MCP behavior; resolver caches elsewhere can take time to refresh.
 
-## Not established by these runs
+## User-reported local Muse workflow
 
-Actual Muse installation, authentication compatibility, approval prompts, booking
-within Muse, connector submission/approval/discoverability,
+On 2026-10-20, the user reported that local Muse read this GitHub repository and
+built a `custom.genie-mobility` client targeting the canonical MCP endpoint with a
+six-tool allowlist. The user reported secure credential storage, with no key in
+the client file or chat. We did not independently inspect that client or storage.
+
+The reported workflow returned a USD 5.00 simulation quote with expiry and
+idempotent replay, reserved and confirmed into `awaiting_pickup_details` with
+`simulated_authorized` payment state, submitted pickup details and reached
+`completed`. A separate delivery reached `cancelled`.
+
+The backend owner independently corroborated both reported records with read-only,
+authenticated REST GET requests against canonical HTTPS. Both returned 200 in the
+`owner-test` tenant, with the respective `completed`/`cancelled` states and
+`simulation: true`. TLS hostname verification remained enabled; a process-local
+resolver override used an independently queried public DNS result because this
+machine still cached NXDOMAIN. No writes or deployments were performed for this
+corroboration. The user-session delivery IDs and personal details are omitted here.
+
+Those backend reads establish persisted outcomes, not which client created them.
+Muse execution provenance, client construction, secure storage and the displayed
+workflow remain user-reported. The local session does not establish one-click
+GitHub installation, platform-wide support, directory approval or real delivery.
+
+## Not established by this evidence
+
+General Muse installation/authentication support, independently observed Muse
+permission prompts or secure storage, connector submission/approval/discoverability,
 real service coverage, payments and dispatch are not validated. Concurrency,
 expiry, readiness and durable-event checks require separate backend evidence.
 The generic client result must not be presented as a Muse demo.

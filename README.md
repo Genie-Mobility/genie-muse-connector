@@ -6,7 +6,9 @@ The hosted sandbox endpoint is `https://delivery.geniemobility.ai/mcp`.
 Its TLS, MCP discovery, persisted delivery reads and Origin checks were independently
 verified on 2026-10-20, following the complete workflow test on its Railway hostname.
 See [validation evidence](docs/validation.md), including the local DNS-cache caveat.
-The connector is not claimed to be installed in or approved by Muse.
+The user has since reported a successful local Muse custom-connector workflow
+using this repository; see the evidence distinctions below. No directory approval
+is claimed.
 
 **Sandbox only:** fictional deliveries, simulated payment authorization, no charges,
 no food ordering, no vehicle or human dispatch. A confirmed sandbox delivery is not
@@ -20,17 +22,19 @@ API or MCP documentation and asks for authentication details, including OAuth cl
 credentials or API keys. It does not specify a GitHub installation mechanism,
 supported MCP transport versions, or bearer-header configuration.
 
-This repository is distribution of integration instructions, **not an installable
-Muse plugin**. Actual Muse installation, authentication compatibility, approval
-prompts, and end-to-end booking have not been verified. The submission portal
-requires account sign-in. See [verified platform constraints](docs/muse-platform.md)
-and [submission checklist](docs/submission.md).
+In one user-reported local Muse session, Muse read this repository and built a
+`custom.genie-mobility` client targeting the canonical MCP endpoint with a six-tool
+allowlist. The user reported secure key storage and successful simulated completion
+and cancellation. This is a session-specific custom integration, not evidence of
+one-click installation, general platform support, or directory approval. See
+[validation evidence](docs/validation.md), [platform constraints](docs/muse-platform.md)
+and the separate [submission checklist](docs/submission.md).
 
 ## Integration contract
 
-The proposed service interface is MCP Streamable HTTP with a dedicated sandbox API
-key in `Authorization: Bearer …`. This is our service contract; Muse compatibility
-must be confirmed in its authenticated portal. Never put keys in URLs, committed
+The service interface is MCP Streamable HTTP with a dedicated sandbox API
+key in `Authorization: Bearer …`. The reported local custom client used this
+interface; platform submission compatibility remains separate. Never put keys in URLs, committed
 files, screenshots, conversation prompts, or test output. Use environment variables
 or the portal's secure credential intake.
 
@@ -72,9 +76,10 @@ sizes are capped. Socket timeouts limit inactivity; a slow stream can exceed the
 nominal request timeout, so use a process-level timeout for unattended runs against
 an untrusted endpoint.
 
-Separate hosted owner-test and reviewer tenants are provisioned. Reviewer
-credentials have **not** been submitted to Muse or published here. Actual Muse
-connection and approval behavior still require authenticated platform/client access.
+Separate hosted owner-test and reviewer tenants are provisioned. Credentials have
+not been published here or submitted through the Connector Platform. The user
+reports secure credential configuration in the local Muse client; we did not
+independently inspect its storage or permission prompts.
 
 ## Sources
 
