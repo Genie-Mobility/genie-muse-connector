@@ -79,6 +79,9 @@ limit, consent denial, S256 PKCE, code replay prevention, resource and exact red
 binding, the single read-only tool, absent business/operator/payment routes, refresh
 rotation with replay-triggered family revocation, and explicit revocation. The
 approved callback was the fictional fixture URI `https://connector.example/callback`.
+The complete probe passed again after the registration-policy authority fix, against
+backend commit `d6d99c5460707065c1a76a44b38ccfb61c78bc21`
+([backend draft PR](https://github.com/Genie-Mobility/genie-delivery/pull/2)).
 This result does not establish hosted deployment or a successful Muse handshake.
 
 ```sh
