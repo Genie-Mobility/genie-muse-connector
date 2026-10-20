@@ -4,6 +4,12 @@ Status: draft; no submission or terms acceptance performed. Follow the current
 [official submission flow](https://platform.muse.ai/submission) after sign-in.
 Do not infer field names or automation APIs from this checklist.
 
+Hosted sandbox now available at
+`https://delivery-api-production-8749.up.railway.app/mcp`, tested with a generic MCP
+client. Separate `owner-test` and `muse-reviewer` tenants are provisioned with
+distinct credentials stored outside this repository. No credentials have been
+submitted to Muse. Custom-domain DNS and actual Muse connectivity remain pending.
+
 ## Prepared product description
 
 Genie delivery sandbox demonstrates quoting, reserving, confirming, providing pickup
@@ -23,9 +29,10 @@ portal field names and any additional requirements remain unverified.
 - Actual privacy-policy and product-terms URLs; do not substitute the website's
   unrelated policies without confirming they cover this service.
 - Support contact, security contact and responsible maintenance developer.
-- Confirmed hosting URL, TLS, availability and published API/MCP documentation.
-- Dedicated reviewer/test account, securely supplied API key, tenant boundaries,
-  sign-in instructions, permissions and any account/region restrictions.
+- Supply the verified hosted endpoint and published API/MCP documentation to the
+  authenticated intake, and maintain review-period availability.
+- Securely supply the provisioned reviewer's API key, account instructions,
+  permissions and restrictions through the platform's confirmed intake mechanism.
 - Exact retention/deletion policy, access revocation process, encryption/access
   controls and processors, reconciled with the deployed implementation.
 - Documented error cases, rate limits, all inputs/outputs, side effects and tool

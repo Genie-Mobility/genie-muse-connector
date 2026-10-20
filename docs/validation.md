@@ -39,10 +39,30 @@ credential-bearing/plaintext remote URLs, rejecting malformed protocol envelopes
 and error flags, and preventing internal failures or unrelated rejections from
 counting as successful negative tests.
 
-## Not established by this run
+## Hosted HTTPS validation
+
+Date: 2026-10-20. Endpoint:
+`https://delivery-api-production-8749.up.railway.app/mcp`. Backend deployment commit:
+`007a2425432f43bca86cc9b9179dd5d688fc0ea2` (runtime/contract unchanged from the
+snapshot source; deployment instructions updated).
+
+The same independent client passed all six check groups listed above over hosted
+HTTPS. Its primary credential belonged to `owner-test`; the separately provisioned
+`muse-reviewer` tenant could not read or cancel that owner's delivery. Hosted
+`tools/list` exactly matched the published six-tool input/output schema snapshot.
+Credentials were loaded from a protected local file and not logged or committed.
+
+Completed hosted delivery: `56623efe-1c86-40b8-8896-20904235d682`.
+Cancelled hosted delivery: `791327e7-1904-4dac-bd81-55b2ef958506`.
+
+After the backend owner restarted both hosted API and worker, a fresh independent
+MCP session read these same IDs with their correct `completed`/`cancelled` states
+and simulation labels. No new deliveries were created for the restart check.
+
+## Not established by these runs
 
 Actual Muse installation, authentication compatibility, approval prompts, booking
-within Muse, connector submission/approval/discoverability, public HTTPS deployment,
+within Muse, connector submission/approval/discoverability, custom-domain DNS/TLS,
 real service coverage, payments and dispatch are not validated. Concurrency,
 expiry, readiness and durable-event checks require separate backend evidence.
 The generic client result must not be presented as a Muse demo.

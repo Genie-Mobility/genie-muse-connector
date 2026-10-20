@@ -14,6 +14,10 @@ Base URL target: `https://delivery.geniemobility.ai`. Local test base:
 server maps to a tenant; callers cannot select tenant IDs. Remote connections need
 HTTPS. Streamable HTTP compatibility with Muse remains unverified.
 
+Currently tested hosted base: `https://delivery-api-production-8749.up.railway.app`.
+The custom-domain target still needs DNS setup. Schema snapshots retain the intended
+custom hostname; substitute the tested base when running hosted sandbox requests.
+
 All five mutating tools take an `idempotency_key` string (1–128 characters,
 letters/digits or `._:-`); REST
 uses the `Idempotency-Key` header instead. Use a fresh UUID for a new action and keep

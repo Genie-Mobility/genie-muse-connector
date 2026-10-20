@@ -2,8 +2,11 @@
 
 Integration documentation and an independent MCP acceptance client for the Genie
 delivery sandbox. The service lives in the separate `genie-delivery` repository.
-The planned public endpoint is `https://delivery.geniemobility.ai/mcp`; this address
-is a deployment target, not a claim that a service is deployed or approved.
+The hosted sandbox endpoint is
+`https://delivery-api-production-8749.up.railway.app/mcp`. Its HTTPS MCP workflow was
+independently tested on 2026-10-20. The custom endpoint
+`https://delivery.geniemobility.ai/mcp` remains pending DNS setup. Neither endpoint
+is claimed to be installed in or approved by Muse.
 
 **Sandbox only:** fictional deliveries, simulated payment authorization, no charges,
 no food ordering, no vehicle or human dispatch. A confirmed sandbox delivery is not
@@ -50,12 +53,13 @@ See the [exact contract](docs/contract.md) and
 [demo acceptance procedure](docs/demo.md) for testing. A generic MCP client
 test is evidence about the service, not evidence of a successful Muse interaction.
 
-With Python 3.12+, provision a dedicated sandbox tenant key, then run:
+With Python 3.12+, obtain a dedicated sandbox tenant key through a secure channel,
+then run (the example targets the hosted simulation):
 
 ```sh
 read -rsp 'Sandbox token: ' GENIE_SANDBOX_TOKEN; echo
 export GENIE_SANDBOX_TOKEN
-python3 scripts/mcp_demo.py --endpoint http://127.0.0.1:8800/mcp
+python3 scripts/mcp_demo.py --endpoint https://delivery-api-production-8749.up.railway.app/mcp
 unset GENIE_SANDBOX_TOKEN
 ```
 
@@ -67,6 +71,10 @@ JSON/finite-SSE acceptance client, not a general MCP SDK or Muse emulator. Respo
 sizes are capped. Socket timeouts limit inactivity; a slow stream can exceed the
 nominal request timeout, so use a process-level timeout for unattended runs against
 an untrusted endpoint.
+
+Separate hosted owner-test and reviewer tenants are provisioned. Reviewer
+credentials have **not** been submitted to Muse or published here. Actual Muse
+connection and approval behavior still require authenticated platform/client access.
 
 ## Sources
 
