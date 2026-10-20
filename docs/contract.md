@@ -4,6 +4,11 @@ Backend source of truth: `genie-delivery/delivery/models.py` and its exported
 contract schemas. This document describes the agreed interface, not a Muse install
 manifest. The backend owns both REST and MCP adapters over the same business logic.
 
+Published snapshots: [OpenAPI](../contracts/openapi.json),
+[MCP input/output schemas](../contracts/mcp-tools.json), and
+[fictional sandbox fixture](../contracts/sandbox-fixture.json). See
+[snapshot provenance](../contracts/README.md) before comparing service versions.
+
 Base URL target: `https://delivery.geniemobility.ai`. Local test base:
 `http://127.0.0.1:8800`. MCP path: `/mcp`. Use a dedicated bearer API key that the
 server maps to a tenant; callers cannot select tenant IDs. Remote connections need

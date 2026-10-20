@@ -28,6 +28,12 @@ IDs again. Their `completed` and `cancelled` states and simulation labels surviv
 This verifies persisted terminal-state reads across restart. Worker interruption
 mid-execution was tested separately by the backend owner, not by this client.
 
+After the backend's final typed-response update at commit
+`ec80173bbf18568584b5c049b00ed19c56523f8f`, a targeted check verified that live
+`tools/list` exactly matched the published six-tool input/output schema snapshot.
+The independent client also decoded both persisted statuses through the final
+typed `structuredContent` interface. The full workflow was not redundantly rerun.
+
 Six acceptance-client regression tests passed. They cover refusing redirects and
 credential-bearing/plaintext remote URLs, rejecting malformed protocol envelopes
 and error flags, and preventing internal failures or unrelated rejections from

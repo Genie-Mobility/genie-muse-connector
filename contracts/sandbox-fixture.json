@@ -1,0 +1,23 @@
+{
+  "base_url": "http://127.0.0.1:8800",
+  "mcp_path": "/mcp",
+  "quote": {
+    "pickup_address": "Demo Restaurant, 1 Fictional Street",
+    "dropoff_address": "Demo Customer, 2 Fictional Street",
+    "package_description": "One prepared meal; simulated delivery only",
+    "requested_ready_time": "2026-01-01T00:00:00Z",
+    "handoff_type": "meet_recipient",
+    "instructions": "Simulation only; do not purchase food or dispatch a vehicle."
+  },
+  "confirmation": {"user_confirmed": true},
+  "pickup": {
+    "restaurant_confirmation": true,
+    "restaurant_order_reference": "SANDBOX-ORDER-001",
+    "pickup_name": "Sandbox Customer",
+    "pickup_code": "DEMO",
+    "ready_at": "2026-01-01T00:00:00Z",
+    "instructions": "Simulation only"
+  },
+  "cancel": {"reason": "Sandbox cancellation test"},
+  "expected": {"price_cents": 500, "currency": "USD", "simulation": true}
+}

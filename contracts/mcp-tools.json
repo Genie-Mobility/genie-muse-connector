@@ -1,0 +1,932 @@
+{
+  "tools": [
+    {
+      "name": "get_delivery_quote",
+      "description": "Get a simulated delivery quote; reuse the key only for the identical request.",
+      "inputSchema": {
+        "properties": {
+          "pickup_address": {
+            "title": "Pickup Address",
+            "type": "string"
+          },
+          "dropoff_address": {
+            "title": "Dropoff Address",
+            "type": "string"
+          },
+          "package_description": {
+            "title": "Package Description",
+            "type": "string"
+          },
+          "requested_ready_time": {
+            "format": "date-time",
+            "title": "Requested Ready Time",
+            "type": "string"
+          },
+          "handoff_type": {
+            "title": "Handoff Type",
+            "type": "string"
+          },
+          "idempotency_key": {
+            "maxLength": 128,
+            "minLength": 1,
+            "pattern": "^[A-Za-z0-9._:-]{1,128}$",
+            "title": "Idempotency Key",
+            "type": "string"
+          },
+          "instructions": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Instructions"
+          }
+        },
+        "required": [
+          "pickup_address",
+          "dropoff_address",
+          "package_description",
+          "requested_ready_time",
+          "handoff_type",
+          "idempotency_key"
+        ],
+        "title": "get_delivery_quoteArguments",
+        "type": "object"
+      },
+      "outputSchema": {
+        "$defs": {
+          "EstimatedWindow": {
+            "properties": {
+              "earliest": {
+                "format": "date-time",
+                "title": "Earliest",
+                "type": "string"
+              },
+              "latest": {
+                "format": "date-time",
+                "title": "Latest",
+                "type": "string"
+              },
+              "simulation": {
+                "const": true,
+                "title": "Simulation",
+                "type": "boolean"
+              }
+            },
+            "required": [
+              "earliest",
+              "latest",
+              "simulation"
+            ],
+            "title": "EstimatedWindow",
+            "type": "object"
+          },
+          "QuoteTerms": {
+            "properties": {
+              "simulation": {
+                "const": true,
+                "title": "Simulation",
+                "type": "boolean"
+              },
+              "price": {
+                "title": "Price",
+                "type": "string"
+              },
+              "confirmation": {
+                "title": "Confirmation",
+                "type": "string"
+              },
+              "pickup": {
+                "title": "Pickup",
+                "type": "string"
+              },
+              "cancellation": {
+                "title": "Cancellation",
+                "type": "string"
+              },
+              "eligibility": {
+                "title": "Eligibility",
+                "type": "string"
+              }
+            },
+            "required": [
+              "simulation",
+              "price",
+              "confirmation",
+              "pickup",
+              "cancellation",
+              "eligibility"
+            ],
+            "title": "QuoteTerms",
+            "type": "object"
+          }
+        },
+        "properties": {
+          "quote_id": {
+            "format": "uuid",
+            "title": "Quote Id",
+            "type": "string"
+          },
+          "status": {
+            "const": "quoted",
+            "title": "Status",
+            "type": "string"
+          },
+          "simulation": {
+            "const": true,
+            "title": "Simulation",
+            "type": "boolean"
+          },
+          "price_cents": {
+            "title": "Price Cents",
+            "type": "integer"
+          },
+          "currency": {
+            "const": "USD",
+            "title": "Currency",
+            "type": "string"
+          },
+          "eligible": {
+            "title": "Eligible",
+            "type": "boolean"
+          },
+          "eligibility": {
+            "const": "simulated",
+            "title": "Eligibility",
+            "type": "string"
+          },
+          "eligibility_note": {
+            "title": "Eligibility Note",
+            "type": "string"
+          },
+          "estimated_delivery_at": {
+            "format": "date-time",
+            "title": "Estimated Delivery At",
+            "type": "string"
+          },
+          "estimated_window": {
+            "$ref": "#/$defs/EstimatedWindow"
+          },
+          "eta_note": {
+            "title": "Eta Note",
+            "type": "string"
+          },
+          "expires_at": {
+            "format": "date-time",
+            "title": "Expires At",
+            "type": "string"
+          },
+          "cancellation_terms": {
+            "title": "Cancellation Terms",
+            "type": "string"
+          },
+          "terms": {
+            "$ref": "#/$defs/QuoteTerms"
+          }
+        },
+        "required": [
+          "quote_id",
+          "status",
+          "simulation",
+          "price_cents",
+          "currency",
+          "eligible",
+          "eligibility",
+          "eligibility_note",
+          "estimated_delivery_at",
+          "estimated_window",
+          "eta_note",
+          "expires_at",
+          "cancellation_terms",
+          "terms"
+        ],
+        "title": "QuoteResponse",
+        "type": "object"
+      },
+      "annotations": {
+        "readOnlyHint": false,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": false
+      }
+    },
+    {
+      "name": "reserve_delivery",
+      "description": "Reserve capacity for a quote. This does not confirm or dispatch a delivery.",
+      "inputSchema": {
+        "properties": {
+          "quote_id": {
+            "format": "uuid",
+            "title": "Quote Id",
+            "type": "string"
+          },
+          "idempotency_key": {
+            "maxLength": 128,
+            "minLength": 1,
+            "pattern": "^[A-Za-z0-9._:-]{1,128}$",
+            "title": "Idempotency Key",
+            "type": "string"
+          }
+        },
+        "required": [
+          "quote_id",
+          "idempotency_key"
+        ],
+        "title": "reserve_deliveryArguments",
+        "type": "object"
+      },
+      "outputSchema": {
+        "properties": {
+          "reservation_id": {
+            "format": "uuid",
+            "title": "Reservation Id",
+            "type": "string"
+          },
+          "quote_id": {
+            "format": "uuid",
+            "title": "Quote Id",
+            "type": "string"
+          },
+          "status": {
+            "enum": [
+              "reserved",
+              "confirmed",
+              "expired"
+            ],
+            "title": "Status",
+            "type": "string"
+          },
+          "simulation": {
+            "const": true,
+            "title": "Simulation",
+            "type": "boolean"
+          },
+          "expires_at": {
+            "format": "date-time",
+            "title": "Expires At",
+            "type": "string"
+          }
+        },
+        "required": [
+          "reservation_id",
+          "quote_id",
+          "status",
+          "simulation",
+          "expires_at"
+        ],
+        "title": "ReservationResponse",
+        "type": "object"
+      },
+      "annotations": {
+        "readOnlyHint": false,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": false
+      }
+    },
+    {
+      "name": "confirm_delivery",
+      "description": "Confirm only after the user explicitly approves the quoted delivery; user_confirmed asserts that approval.",
+      "inputSchema": {
+        "properties": {
+          "reservation_id": {
+            "format": "uuid",
+            "title": "Reservation Id",
+            "type": "string"
+          },
+          "user_confirmed": {
+            "const": true,
+            "title": "User Confirmed",
+            "type": "boolean"
+          },
+          "idempotency_key": {
+            "maxLength": 128,
+            "minLength": 1,
+            "pattern": "^[A-Za-z0-9._:-]{1,128}$",
+            "title": "Idempotency Key",
+            "type": "string"
+          }
+        },
+        "required": [
+          "reservation_id",
+          "user_confirmed",
+          "idempotency_key"
+        ],
+        "title": "confirm_deliveryArguments",
+        "type": "object"
+      },
+      "outputSchema": {
+        "properties": {
+          "delivery_id": {
+            "format": "uuid",
+            "title": "Delivery Id",
+            "type": "string"
+          },
+          "reservation_id": {
+            "format": "uuid",
+            "title": "Reservation Id",
+            "type": "string"
+          },
+          "status": {
+            "enum": [
+              "awaiting_pickup_details",
+              "queued",
+              "in_transit",
+              "completed",
+              "cancelled"
+            ],
+            "title": "Status",
+            "type": "string"
+          },
+          "simulation": {
+            "const": true,
+            "title": "Simulation",
+            "type": "boolean"
+          },
+          "payment_status": {
+            "enum": [
+              "simulated_authorized",
+              "simulated_captured",
+              "simulated_voided"
+            ],
+            "title": "Payment Status",
+            "type": "string"
+          },
+          "price_cents": {
+            "title": "Price Cents",
+            "type": "integer"
+          },
+          "currency": {
+            "const": "USD",
+            "title": "Currency",
+            "type": "string"
+          },
+          "pickup_details_received": {
+            "title": "Pickup Details Received",
+            "type": "boolean"
+          },
+          "ready_at": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Ready At"
+          },
+          "created_at": {
+            "format": "date-time",
+            "title": "Created At",
+            "type": "string"
+          },
+          "updated_at": {
+            "format": "date-time",
+            "title": "Updated At",
+            "type": "string"
+          },
+          "cancellation_reason": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Cancellation Reason"
+          }
+        },
+        "required": [
+          "delivery_id",
+          "reservation_id",
+          "status",
+          "simulation",
+          "payment_status",
+          "price_cents",
+          "currency",
+          "pickup_details_received",
+          "ready_at",
+          "created_at",
+          "updated_at",
+          "cancellation_reason"
+        ],
+        "title": "DeliveryResponse",
+        "type": "object"
+      },
+      "annotations": {
+        "readOnlyHint": false,
+        "destructiveHint": true,
+        "idempotentHint": true,
+        "openWorldHint": false
+      }
+    },
+    {
+      "name": "submit_pickup_details",
+      "description": "Submit details after restaurant confirmation; the caller supplies an existing restaurant order reference.",
+      "inputSchema": {
+        "properties": {
+          "delivery_id": {
+            "format": "uuid",
+            "title": "Delivery Id",
+            "type": "string"
+          },
+          "restaurant_confirmation": {
+            "const": true,
+            "title": "Restaurant Confirmation",
+            "type": "boolean"
+          },
+          "restaurant_order_reference": {
+            "title": "Restaurant Order Reference",
+            "type": "string"
+          },
+          "pickup_name": {
+            "title": "Pickup Name",
+            "type": "string"
+          },
+          "ready_at": {
+            "format": "date-time",
+            "title": "Ready At",
+            "type": "string"
+          },
+          "idempotency_key": {
+            "maxLength": 128,
+            "minLength": 1,
+            "pattern": "^[A-Za-z0-9._:-]{1,128}$",
+            "title": "Idempotency Key",
+            "type": "string"
+          },
+          "pickup_code": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Pickup Code"
+          },
+          "instructions": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Instructions"
+          },
+          "pickup_contact": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Pickup Contact"
+          }
+        },
+        "required": [
+          "delivery_id",
+          "restaurant_confirmation",
+          "restaurant_order_reference",
+          "pickup_name",
+          "ready_at",
+          "idempotency_key"
+        ],
+        "title": "submit_pickup_detailsArguments",
+        "type": "object"
+      },
+      "outputSchema": {
+        "properties": {
+          "delivery_id": {
+            "format": "uuid",
+            "title": "Delivery Id",
+            "type": "string"
+          },
+          "reservation_id": {
+            "format": "uuid",
+            "title": "Reservation Id",
+            "type": "string"
+          },
+          "status": {
+            "enum": [
+              "awaiting_pickup_details",
+              "queued",
+              "in_transit",
+              "completed",
+              "cancelled"
+            ],
+            "title": "Status",
+            "type": "string"
+          },
+          "simulation": {
+            "const": true,
+            "title": "Simulation",
+            "type": "boolean"
+          },
+          "payment_status": {
+            "enum": [
+              "simulated_authorized",
+              "simulated_captured",
+              "simulated_voided"
+            ],
+            "title": "Payment Status",
+            "type": "string"
+          },
+          "price_cents": {
+            "title": "Price Cents",
+            "type": "integer"
+          },
+          "currency": {
+            "const": "USD",
+            "title": "Currency",
+            "type": "string"
+          },
+          "pickup_details_received": {
+            "title": "Pickup Details Received",
+            "type": "boolean"
+          },
+          "ready_at": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Ready At"
+          },
+          "created_at": {
+            "format": "date-time",
+            "title": "Created At",
+            "type": "string"
+          },
+          "updated_at": {
+            "format": "date-time",
+            "title": "Updated At",
+            "type": "string"
+          },
+          "cancellation_reason": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Cancellation Reason"
+          }
+        },
+        "required": [
+          "delivery_id",
+          "reservation_id",
+          "status",
+          "simulation",
+          "payment_status",
+          "price_cents",
+          "currency",
+          "pickup_details_received",
+          "ready_at",
+          "created_at",
+          "updated_at",
+          "cancellation_reason"
+        ],
+        "title": "DeliveryResponse",
+        "type": "object"
+      },
+      "annotations": {
+        "readOnlyHint": false,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": false
+      }
+    },
+    {
+      "name": "get_delivery_status",
+      "description": "Read a delivery's current status and ordered event timeline.",
+      "inputSchema": {
+        "properties": {
+          "delivery_id": {
+            "format": "uuid",
+            "title": "Delivery Id",
+            "type": "string"
+          }
+        },
+        "required": [
+          "delivery_id"
+        ],
+        "title": "get_delivery_statusArguments",
+        "type": "object"
+      },
+      "outputSchema": {
+        "$defs": {
+          "DeliveryEvent": {
+            "properties": {
+              "event_id": {
+                "title": "Event Id",
+                "type": "integer"
+              },
+              "status": {
+                "enum": [
+                  "awaiting_pickup_details",
+                  "queued",
+                  "in_transit",
+                  "completed",
+                  "cancelled"
+                ],
+                "title": "Status",
+                "type": "string"
+              },
+              "occurred_at": {
+                "format": "date-time",
+                "title": "Occurred At",
+                "type": "string"
+              },
+              "simulation": {
+                "const": true,
+                "title": "Simulation",
+                "type": "boolean"
+              }
+            },
+            "required": [
+              "event_id",
+              "status",
+              "occurred_at",
+              "simulation"
+            ],
+            "title": "DeliveryEvent",
+            "type": "object"
+          }
+        },
+        "properties": {
+          "delivery_id": {
+            "format": "uuid",
+            "title": "Delivery Id",
+            "type": "string"
+          },
+          "reservation_id": {
+            "format": "uuid",
+            "title": "Reservation Id",
+            "type": "string"
+          },
+          "status": {
+            "enum": [
+              "awaiting_pickup_details",
+              "queued",
+              "in_transit",
+              "completed",
+              "cancelled"
+            ],
+            "title": "Status",
+            "type": "string"
+          },
+          "simulation": {
+            "const": true,
+            "title": "Simulation",
+            "type": "boolean"
+          },
+          "payment_status": {
+            "enum": [
+              "simulated_authorized",
+              "simulated_captured",
+              "simulated_voided"
+            ],
+            "title": "Payment Status",
+            "type": "string"
+          },
+          "price_cents": {
+            "title": "Price Cents",
+            "type": "integer"
+          },
+          "currency": {
+            "const": "USD",
+            "title": "Currency",
+            "type": "string"
+          },
+          "pickup_details_received": {
+            "title": "Pickup Details Received",
+            "type": "boolean"
+          },
+          "ready_at": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Ready At"
+          },
+          "created_at": {
+            "format": "date-time",
+            "title": "Created At",
+            "type": "string"
+          },
+          "updated_at": {
+            "format": "date-time",
+            "title": "Updated At",
+            "type": "string"
+          },
+          "cancellation_reason": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Cancellation Reason"
+          },
+          "events": {
+            "items": {
+              "$ref": "#/$defs/DeliveryEvent"
+            },
+            "title": "Events",
+            "type": "array"
+          }
+        },
+        "required": [
+          "delivery_id",
+          "reservation_id",
+          "status",
+          "simulation",
+          "payment_status",
+          "price_cents",
+          "currency",
+          "pickup_details_received",
+          "ready_at",
+          "created_at",
+          "updated_at",
+          "cancellation_reason",
+          "events"
+        ],
+        "title": "StatusResponse",
+        "type": "object"
+      },
+      "annotations": {
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": false
+      }
+    },
+    {
+      "name": "cancel_delivery",
+      "description": "Cancel a simulated delivery if its current state permits cancellation.",
+      "inputSchema": {
+        "properties": {
+          "delivery_id": {
+            "format": "uuid",
+            "title": "Delivery Id",
+            "type": "string"
+          },
+          "reason": {
+            "title": "Reason",
+            "type": "string"
+          },
+          "idempotency_key": {
+            "maxLength": 128,
+            "minLength": 1,
+            "pattern": "^[A-Za-z0-9._:-]{1,128}$",
+            "title": "Idempotency Key",
+            "type": "string"
+          }
+        },
+        "required": [
+          "delivery_id",
+          "reason",
+          "idempotency_key"
+        ],
+        "title": "cancel_deliveryArguments",
+        "type": "object"
+      },
+      "outputSchema": {
+        "properties": {
+          "delivery_id": {
+            "format": "uuid",
+            "title": "Delivery Id",
+            "type": "string"
+          },
+          "reservation_id": {
+            "format": "uuid",
+            "title": "Reservation Id",
+            "type": "string"
+          },
+          "status": {
+            "enum": [
+              "awaiting_pickup_details",
+              "queued",
+              "in_transit",
+              "completed",
+              "cancelled"
+            ],
+            "title": "Status",
+            "type": "string"
+          },
+          "simulation": {
+            "const": true,
+            "title": "Simulation",
+            "type": "boolean"
+          },
+          "payment_status": {
+            "enum": [
+              "simulated_authorized",
+              "simulated_captured",
+              "simulated_voided"
+            ],
+            "title": "Payment Status",
+            "type": "string"
+          },
+          "price_cents": {
+            "title": "Price Cents",
+            "type": "integer"
+          },
+          "currency": {
+            "const": "USD",
+            "title": "Currency",
+            "type": "string"
+          },
+          "pickup_details_received": {
+            "title": "Pickup Details Received",
+            "type": "boolean"
+          },
+          "ready_at": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Ready At"
+          },
+          "created_at": {
+            "format": "date-time",
+            "title": "Created At",
+            "type": "string"
+          },
+          "updated_at": {
+            "format": "date-time",
+            "title": "Updated At",
+            "type": "string"
+          },
+          "cancellation_reason": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Cancellation Reason"
+          }
+        },
+        "required": [
+          "delivery_id",
+          "reservation_id",
+          "status",
+          "simulation",
+          "payment_status",
+          "price_cents",
+          "currency",
+          "pickup_details_received",
+          "ready_at",
+          "created_at",
+          "updated_at",
+          "cancellation_reason"
+        ],
+        "title": "DeliveryResponse",
+        "type": "object"
+      },
+      "annotations": {
+        "readOnlyHint": false,
+        "destructiveHint": true,
+        "idempotentHint": true,
+        "openWorldHint": false
+      }
+    }
+  ]
+}
