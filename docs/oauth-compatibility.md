@@ -40,11 +40,10 @@ are untrusted until checked; a name claiming to be Muse proves no affiliation.
 
 ## Fresh Muse prompt
 
-Use this only once the actual isolated HTTPS endpoint has been supplied. Replace
-the bracketed placeholder with that endpoint, not the existing delivery sandbox:
+The isolated staging endpoint is ready for a callback-discovery attempt:
 
 > Create a NEW Genie OAuth Compatibility Test connector alongside
-> custom.genie-mobility, using [actual isolated compatibility MCP URL]. Discover its
+> custom.genie-mobility, using https://oauth-compat-probe-production.up.railway.app/pilot/mcp. Discover its
 > OAuth metadata and attempt oauth2_code with dynamic registration. Do not reuse
 > the existing API key or change the old connector. Stop before granting consent.
 > Report the observed callback URI, assigned client_id if any, token-endpoint auth
@@ -82,7 +81,19 @@ approved callback was the fictional fixture URI `https://connector.example/callb
 The complete probe passed again after the registration-policy authority fix, against
 backend commit `d6d99c5460707065c1a76a44b38ccfb61c78bc21`
 ([backend draft PR](https://github.com/Genie-Mobility/genie-delivery/pull/2)).
-This result does not establish hosted deployment or a successful Muse handshake.
+This local result does not establish a successful Muse handshake.
+
+Independent hosted readiness checks subsequently passed over normal certificate
+validation at `https://oauth-compat-probe-production.up.railway.app`: both metadata
+documents returned 200 with the expected issuer/resource, registration endpoint and
+S256 support; unauthenticated MCP returned 401 with a resource-metadata challenge;
+operator, delivery and payment routes returned 404. One registration named
+`Synthetic independent readiness probe - not Muse`, with callback
+`https://independent-readiness.invalid/callback`, returned 400
+`invalid_redirect_uri` without a client ID. This deliberately synthetic observation
+must not be attributed to Muse. The deployment started with an empty callback
+allowlist; no consent, successful hosted registration or allowlist change was
+performed by these checks. Actual Muse OAuth compatibility remains unverified.
 
 ```sh
 SSL_CERT_FILE=/path/to/test-ca.pem python3 scripts/dcr_probe.py \
