@@ -125,6 +125,15 @@ issuer/audience/expiry/scope validation, principal isolation, fixed discovery/ke
 origins and bounded unknown-key requests. Actual Descope-issued customer tokens,
 email OTP, consent, refresh and Muse reconnection remain unverified.
 
+The 12 HTTP cases passed again after the final lifecycle and token-parser
+hardening changes. Final backend provenance is
+`29add386503c43784ce60d243751124256c2f5d5`
+([backend draft PR #3](https://github.com/Genie-Mobility/genie-delivery/pull/3)),
+based on stable main. The backend owner separately reports 151 full regression
+tests passing and no unresolved review blockers. Those broader results are
+owner-reported, not a claim that this connector runner repeated them. No managed
+deployment or real provider grant was performed as part of this evidence.
+
 ```sh
 PYTHONPATH=/path/to/genie-delivery-descope /path/to/backend-venv/bin/python \
   -m pytest -q integration_tests/test_managed_transport_contract.py
