@@ -48,8 +48,8 @@ MCP resource audience and the reviewed issuer policy; do not blindly copy defaul
 token-verification settings. A usable discovery URL and JWKS do not prove a token
 has been issued with that audience or that Muse can register.
 
-Registration readiness is a separate decision. The observed metadata does not
-advertise automatic DCR or CIMD. This prevents discovery-driven registration but
+Registration readiness is a separate decision. The initial metadata did not
+advertise automatic DCR or CIMD. That prevented discovery-driven registration but
 does not rule out a preregistered confidential native OAuth client using the
 advertised secret-based methods. Do not force such a client to become public.
 If Muse uses automatic DCR, Descope's documented setting is the existing Genie
@@ -151,9 +151,26 @@ a registration endpoint nor CIMD. For the intended automatic-registration flow,
 the next provider action is to enable/confirm DCR on the existing Genie MCP
 Resource under **Settings > MCP Client Registration**, then recheck the same URL.
 No new resource, compatibility connector, customer API key or invented client ID
-is needed. Hosted email verification, consent, actual resource-scoped customer
-tokens and Muse resume remain unverified. API deployment alone does not establish
-that customer flow.
+is needed.
+
+After the user saved DCR enabled with the Default Dynamic Registration Template,
+another read-only GET of the **same project discovery URL** returned 200 and
+advertised `https://api.descope.com/v1/mgmt/inboundapp/app/P3KyuMNUTqygvFLXVwI34oyhtFTc/register`.
+Token authentication now includes `none`, `client_secret_basic` and
+`client_secret_post`; S256, authorization-code and refresh support remain advertised.
+This resolves the missing DCR advertisement. No registration or grant was attempted.
+Project scopes remain OIDC-only and CIMD is not advertised; actual resource-scoped
+token issuance still needs the customer flow. Selecting the Default template does
+not prove email OTP is configured, and an empty optional Client Registration Flow
+does not itself block this advertised registration.
+
+The next step is one native Genie OAuth connection to the canonical endpoint using
+discovered provider registration. Let the user complete the actual hosted login
+and consent; request only `delivery:read` for the first check, then list tools.
+Create no quote, booking or payment. Report success or the exact non-secret error,
+without a separate compatibility connector. Hosted authentication, consent, actual
+resource-scoped customer tokens and Muse resume remain unverified. API deployment
+and registration advertisement alone do not establish that customer flow.
 
 ```sh
 PYTHONPATH=/path/to/genie-delivery-descope /path/to/backend-venv/bin/python \
