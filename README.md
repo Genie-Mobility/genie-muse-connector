@@ -1,5 +1,10 @@
 # Genie delivery connector
 
+The managed OAuth integration is being prepared with Descope. See
+[current onboarding and migration guidance](docs/managed-onboarding.md). Customers
+will use one Genie connector; the sandbox interface documented below remains the
+verified baseline until the replacement is validated and deployed.
+
 Integration documentation and an independent MCP acceptance client for the Genie
 delivery sandbox. The service lives in the separate `genie-delivery` repository.
 The hosted sandbox endpoint is `https://delivery.geniemobility.ai/mcp`.
