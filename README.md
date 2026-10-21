@@ -1,9 +1,9 @@
 # Genie delivery connector
 
-The managed OAuth integration is being prepared with Descope. See
+The managed OAuth backend is deployed in transition mode with Descope. See
 [current onboarding and migration guidance](docs/managed-onboarding.md). Customers
-will use one Genie connector; the sandbox interface documented below remains the
-verified baseline until the replacement is validated and deployed.
+will use one Genie connector; the legacy sandbox interface below remains supported
+while the actual Muse/Descope customer authorization flow is validated.
 
 Integration documentation and an independent MCP acceptance client for the Genie
 delivery sandbox. The service lives in the separate `genie-delivery` repository.

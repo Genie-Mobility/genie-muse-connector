@@ -1,11 +1,11 @@
 # Managed Descope authorization
 
-This is the current integration direction, pending backend validation and reviewed
-deployment. Customers use **one Genie connector** at
+The reviewed backend is deployed in transition mode, retaining legacy access while
+the actual managed customer flow is validated. Customers use **one Genie connector** at
 `https://delivery.geniemobility.ai/mcp`. Descope handles authentication, consent,
 client registration and token issuance. Genie validates tokens and applies customer
 isolation and tool permissions. The existing sandbox/client stays in place until
-the managed replacement is verified. No successful Muse/Descope connection is
+the managed customer flow is verified. No successful Muse/Descope connection is
 claimed yet.
 
 ## Customer flow
@@ -131,8 +131,29 @@ hardening changes. Final backend provenance is
 ([backend draft PR #3](https://github.com/Genie-Mobility/genie-delivery/pull/3)),
 based on stable main. The backend owner separately reports 151 full regression
 tests passing and no unresolved review blockers. Those broader results are
-owner-reported, not a claim that this connector runner repeated them. No managed
-deployment or real provider grant was performed as part of this evidence.
+owner-reported, not a claim that this connector runner repeated them.
+
+### Hosted transition
+
+The backend owner deployed the exact runtime commit above as API deployment
+`80caa28f-dd08-4b71-b6fd-309db9f7c4b3`, preserving the legacy keys, database and
+worker. Independent read-only HTTPS checks then passed on the canonical endpoint:
+`/healthz` returned 200; protected-resource metadata returned the exact resource,
+confirmed Descope issuer and both delivery scopes; unauthenticated MCP returned
+401 with its metadata challenge. The legacy owner credential initialized and
+discovered all six tools. Existing completed/cancelled simulated deliveries
+remained readable, and the separate reviewer tenant was denied the owner's record.
+Credentials came only from protected local storage. Normal TLS verification was
+used. No new delivery, registration or grant was created.
+
+A fresh read of the confirmed Descope discovery document still advertised neither
+a registration endpoint nor CIMD. For the intended automatic-registration flow,
+the next provider action is to enable/confirm DCR on the existing Genie MCP
+Resource under **Settings > MCP Client Registration**, then recheck the same URL.
+No new resource, compatibility connector, customer API key or invented client ID
+is needed. Hosted email verification, consent, actual resource-scoped customer
+tokens and Muse resume remain unverified. API deployment alone does not establish
+that customer flow.
 
 ```sh
 PYTHONPATH=/path/to/genie-delivery-descope /path/to/backend-venv/bin/python \
